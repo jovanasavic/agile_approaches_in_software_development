@@ -1,0 +1,112 @@
+package models;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+@Entity
+public class Client implements Serializable {
+	
+	private static final long SerialVerzionUID = 1L;
+
+	@Id
+	@SequenceGenerator(name="CLIENT_ID_GENERATOR", sequenceName="CLIENT_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_ID_GENERATOR")
+	private Integer id;
+	
+	@NotBlank(message="Client company name cannot be empty!")
+	private String name;
+	
+	@NotBlank(message="Client registration number cannot be empty!")
+	private String client_reg_number;
+	
+	private String address;
+	
+	@Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Format of number must be +1 123456789")
+	private String contact;
+	
+	@Email(message="Email is not valid!")
+	private String email;
+	private String account_number;
+	
+	public Client() {
+		
+	}
+	
+	public Client(Integer id, String name, String client_reg_number, String address, String contact, String email,
+			String account_number) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.client_reg_number = client_reg_number;
+		this.address = address;
+		this.contact = contact;
+		this.email = email;
+		this.account_number = account_number;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getClient_reg_number() {
+		return client_reg_number;
+	}
+
+	public void setClient_reg_number(String client_reg_number) {
+		this.client_reg_number = client_reg_number;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAccount_number() {
+		return account_number;
+	}
+
+	public void setAccount_number(String account_number) {
+		this.account_number = account_number;
+	}
+	
+	
+}
