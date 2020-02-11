@@ -14,6 +14,9 @@ import javax.validation.constraints.Pattern;
 @Entity
 public class Company implements Serializable {
 	
+	private static final long SerialVersionUID = 1L;  
+
+	
 	@Id
 	@SequenceGenerator(name="COMPANY_ID_GENERATOR", sequenceName="COMPANY_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMPANY_ID_GENERATOR")
@@ -34,6 +37,7 @@ public class Company implements Serializable {
 	private String account_number;
 	
 	public Company() {
+		super();
 		
 	}
 	
@@ -48,9 +52,6 @@ public class Company implements Serializable {
 		this.email = email;
 		this.account_number = account_number;
 	}
-	
-	
-	
 	
 	public Integer getId() {
 		return id;

@@ -8,10 +8,10 @@
 		<version>2.2.2.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>hr_platform</groupId>
-	<artifactId>coding_task</artifactId>
+	<groupId>com.example</groupId>
+	<artifactId>project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>coding_task</name>
+	<name>project</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
