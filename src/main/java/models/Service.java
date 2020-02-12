@@ -1,11 +1,14 @@
 package models;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 
@@ -18,7 +21,7 @@ public class Service implements Serializable{
 	@Id
 	@SequenceGenerator(name="SERVICE_ID_GENERATOR", sequenceName="SERVICE_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_ID_GENERATOR")
-	private Integer id;
+	private Integer serviceId;
 	
 	@NotBlank(message="Name cannot be empty!")
 	private String name;
@@ -38,23 +41,29 @@ public class Service implements Serializable{
 	}
 
 
-	public Service(Integer id, @NotBlank(message = "Name cannot be empty!") String name,
+	public Service(Integer serviceId, @NotBlank(message = "Name cannot be empty!") String name,
 			@NotBlank(message = "Name cannot be empty!") double price, Measure measure) {
 		super();
-		this.id = id;
+		this.serviceId = serviceId;
 		this.name = name;
 		this.price = price;
 		this.measure = measure;
 	}
-
-
-	public Integer getId() {
-		return id;
+	
+	@ManyToMany(mappedBy = "serviceList")
+	private Set<Bill> billList;
+	
+	@OneToMany(mappedBy = "service")
+	private Set<ServiceQuantity> quantities;
+	
+	
+	public Integer getServiceId() {
+		return serviceId;
 	}
 
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setServiceId(Integer serviceId) {
+		this.serviceId = serviceId;
 	}
 
 

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -18,7 +20,7 @@ public class Payment implements Serializable {
 	@Id
 	@SequenceGenerator(name="SERVICE_ID_GENERATOR", sequenceName="SERVICE_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_ID_GENERATOR")
-	private Integer id;
+	private Integer paymentId;
 	
 	private double amount;
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
@@ -29,21 +31,25 @@ public class Payment implements Serializable {
 		}
 	
 	
-	public Payment(Integer id, double amount, LocalDate date_of_issue) {
+	public Payment(Integer paymentId, double amount, LocalDate date_of_issue) {
 		super();
-		this.id = id;
+		this.paymentId = paymentId;
 		this.amount = amount;
 		this.date_of_issue = date_of_issue;
 	}
+	
+	@ManyToOne
+	@JoinColumn (name = "bill")
+	private Bill bill;
 
 
-	public Integer getId() {
-		return id;
+	public Integer getPaymentId() {
+		return paymentId;
 	}
 
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setPaymnetId(Integer paymentId) {
+		this.paymentId = paymentId;
 	}
 
 

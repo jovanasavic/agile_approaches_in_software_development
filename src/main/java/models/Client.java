@@ -1,15 +1,21 @@
 package models;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Client implements Serializable {
@@ -19,7 +25,7 @@ public class Client implements Serializable {
 	@Id
 	@SequenceGenerator(name="CLIENT_ID_GENERATOR", sequenceName="CLIENT_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_ID_GENERATOR")
-	private Integer id;
+	private Integer clientId;
 	
 	@NotBlank(message="Client company name cannot be empty!")
 	private String name;
@@ -40,10 +46,10 @@ public class Client implements Serializable {
 		
 	}
 	
-	public Client(Integer id, String name, String client_reg_number, String address, String contact, String email,
+	public Client(Integer clientId, String name, String client_reg_number, String address, String contact, String email,
 			String account_number) {
 		super();
-		this.id = id;
+		this.clientId = clientId;
 		this.name = name;
 		this.client_reg_number = client_reg_number;
 		this.address = address;
@@ -51,13 +57,21 @@ public class Client implements Serializable {
 		this.email = email;
 		this.account_number = account_number;
 	}
-
-	public Integer getId() {
-		return id;
+	
+	@ManyToOne
+	@JoinColumn(name = "company")
+	private Company company;
+	
+	@OneToMany(mappedBy = "client")
+	@JsonIgnore
+	private List<Bill> bills;
+	
+	public Integer getClientId() {
+		return clientId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
 	}
 
 	public String getName() {
@@ -107,6 +121,7 @@ public class Client implements Serializable {
 	public void setAccount_number(String account_number) {
 		this.account_number = account_number;
 	}
+
 	
 	
 }

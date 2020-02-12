@@ -1,15 +1,20 @@
 package models;
 
+
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Company implements Serializable {
@@ -20,7 +25,7 @@ public class Company implements Serializable {
 	@Id
 	@SequenceGenerator(name="COMPANY_ID_GENERATOR", sequenceName="COMPANY_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMPANY_ID_GENERATOR")
-	private Integer id;
+	private Integer companyId;
 	
 	@NotBlank(message="Name cannot be empty!")
 	private String name;
@@ -41,10 +46,10 @@ public class Company implements Serializable {
 		
 	}
 	
-	public Company(Integer id, String name, String pib, String address, String contact, String email,
+	public Company(Integer companyId, String name, String pib, String address, String contact, String email,
 			String account_number) {
 		super();
-		this.id = id;
+		this.companyId = companyId;
 		this.name = name;
 		this.pib = pib;
 		this.address = address;
@@ -53,11 +58,16 @@ public class Company implements Serializable {
 		this.account_number = account_number;
 	}
 	
-	public Integer getId() {
-		return id;
+	@OneToMany(mappedBy = "company")
+	@JsonIgnore
+	private List<Client> clients;
+	
+	
+	public Integer getCompanyId() {
+		return companyId;
 	}
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCompanyId(Integer companyId) {
+		this.companyId = companyId;
 	}
 	public String getName() {
 		return name;

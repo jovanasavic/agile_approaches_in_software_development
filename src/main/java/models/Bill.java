@@ -2,15 +2,23 @@ package models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Bill implements Serializable{
@@ -20,7 +28,7 @@ public class Bill implements Serializable{
 	@Id
 	@SequenceGenerator(name="BILL_ID_GENERATOR", sequenceName="BILL_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="BILL_ID_GENERATOR")
-	private Integer id;
+	private Integer billId;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private LocalDate date_of_issue;
@@ -38,23 +46,43 @@ public class Bill implements Serializable{
 		super();
 	}
 
-	public Bill(Integer id, LocalDate date_of_issue, int time_limit,
+	public Bill(Integer billId, LocalDate date_of_issue, int time_limit,
 			@NotBlank(message = "Total amount cannot be empty.") double total_amount,
 			@NotBlank(message = "Debt cannot be empty.") double dept) {
 		super();
-		this.id = id;
+		this.billId = billId;
 		this.date_of_issue = date_of_issue;
 		this.time_limit = time_limit;
 		this.total_amount = total_amount;
 		this.dept = dept;
 	}
+	
+	@ManyToOne
+	@JoinColumn(name = "client")
+	private Client client;
+	
+	@OneToMany(mappedBy = "bill")
+	@JsonIgnore
+	private List<Payment> payments;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "bill_service",
+			joinColumns = @JoinColumn(name = "bill_id"),
+			inverseJoinColumns = @JoinColumn(name = "service_id")
+			)
+	private Set<Service> serviceList;
+	
+	@OneToMany(mappedBy = "bill")
+	private Set<ServiceQuantity> quantities;
+	
 
-	public Integer getId() {
-		return id;
+	public Integer getBillId() {
+		return billId;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setBillId(Integer billId) {
+		this.billId = billId;
 	}
 
 	public LocalDate getDate_of_issue() {
@@ -88,4 +116,14 @@ public class Bill implements Serializable{
 	public void setDept(double dept) {
 		this.dept = dept;
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+
 }
