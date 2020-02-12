@@ -15,15 +15,21 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Table(name="bill")
 public class Bill implements Serializable{
 	
-	private static final long SerialVersionUID = 1L;  
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	
 	@Id
 	@SequenceGenerator(name="BILL_ID_GENERATOR", sequenceName="BILL_SEQ")

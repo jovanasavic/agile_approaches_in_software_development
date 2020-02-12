@@ -20,7 +20,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Client implements Serializable {
 	
-	private static final long SerialVerzionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@SequenceGenerator(name="CLIENT_ID_GENERATOR", sequenceName="CLIENT_SEQ")

@@ -9,6 +9,12 @@ import javax.persistence.Embeddable;
 
 public class ServiceQuantityKey  implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public ServiceQuantityKey() {
 		super();
 	}

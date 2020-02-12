@@ -16,7 +16,11 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Service implements Serializable{
-	private static final long SerialVersionUID = 1L;  
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@SequenceGenerator(name="SERVICE_ID_GENERATOR", sequenceName="SERVICE_SEQ")
