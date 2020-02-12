@@ -1,4 +1,4 @@
-package models;
+package com.example.project.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,14 +15,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="bill")
 public class Bill implements Serializable{
 	
 	/**
@@ -41,6 +39,26 @@ public class Bill implements Serializable{
 	
    
 	private int time_limit;
+	
+	@ManyToOne
+	@JoinColumn(name = "client")
+	private Client client;
+	
+	@OneToMany(mappedBy = "bill")
+	@JsonIgnore
+	private List<Payment> payments;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "bill_service",
+			joinColumns = @JoinColumn(name = "bill_id"),
+			inverseJoinColumns = @JoinColumn(name = "service_id")
+			)
+	private Set<Service> serviceList;
+	
+	@OneToMany(mappedBy = "bill")
+	private Set<ServiceQuantity> quantities;
+	
 	
 	@NotBlank(message = "Total amount cannot be empty.")
 	private double total_amount;
@@ -63,24 +81,6 @@ public class Bill implements Serializable{
 		this.dept = dept;
 	}
 	
-	@ManyToOne
-	@JoinColumn(name = "client")
-	private Client client;
-	
-	@OneToMany(mappedBy = "bill")
-	@JsonIgnore
-	private List<Payment> payments;
-	
-	@ManyToMany
-	@JoinTable(
-			name = "bill_service",
-			joinColumns = @JoinColumn(name = "bill_id"),
-			inverseJoinColumns = @JoinColumn(name = "service_id")
-			)
-	private Set<Service> serviceList;
-	
-	@OneToMany(mappedBy = "bill")
-	private Set<ServiceQuantity> quantities;
 	
 
 	public Integer getBillId() {

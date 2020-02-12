@@ -1,4 +1,4 @@
-package models;
+package com.example.project.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,6 +31,11 @@ public class Payment implements Serializable {
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd/MM/yyyy")
     private LocalDate date_of_issue;
 	
+	@ManyToOne
+	@JoinColumn (name = "bill")
+	private Bill bill;
+
+	
 	public Payment () {
 		
 		}
@@ -42,11 +47,6 @@ public class Payment implements Serializable {
 		this.amount = amount;
 		this.date_of_issue = date_of_issue;
 	}
-	
-	@ManyToOne
-	@JoinColumn (name = "bill")
-	private Bill bill;
-
 
 	public Integer getPaymentId() {
 		return paymentId;

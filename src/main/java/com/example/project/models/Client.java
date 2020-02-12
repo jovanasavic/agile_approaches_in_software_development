@@ -1,5 +1,4 @@
-package models;
-
+package com.example.project.models;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
@@ -17,25 +18,24 @@ import javax.validation.constraints.Pattern;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Company implements Serializable {
+public class Client implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-
-	
 	@Id
-	@SequenceGenerator(name="COMPANY_ID_GENERATOR", sequenceName="COMPANY_SEQ")
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="COMPANY_ID_GENERATOR")
-	private Integer companyId;
+	@SequenceGenerator(name="CLIENT_ID_GENERATOR", sequenceName="CLIENT_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="CLIENT_ID_GENERATOR")
+	private Integer clientId;
 	
-	@NotBlank(message="Name cannot be empty!")
+	@NotBlank(message="Client company name cannot be empty!")
 	private String name;
 	
-	@NotBlank(message="PIB cannot be empty!")
-	private String pib;
+	@NotBlank(message="Client registration number cannot be empty!")
+	private String client_reg_number;
+	
 	private String address;
 	
 	@Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Format of number must be +1 123456789")
@@ -45,75 +45,86 @@ public class Company implements Serializable {
 	private String email;
 	private String account_number;
 	
-	public Company() {
-		super();
+	@ManyToOne
+	@JoinColumn(name = "company")
+	private Company company;
+	
+	@OneToMany(mappedBy = "client")
+	@JsonIgnore
+	private List<Bill> bills;
+	
+	public Client() {
 		
 	}
 	
-	public Company(Integer companyId, String name, String pib, String address, String contact, String email,
+	public Client(Integer clientId, String name, String client_reg_number, String address, String contact, String email,
 			String account_number) {
 		super();
-		this.companyId = companyId;
+		this.clientId = clientId;
 		this.name = name;
-		this.pib = pib;
+		this.client_reg_number = client_reg_number;
 		this.address = address;
 		this.contact = contact;
 		this.email = email;
 		this.account_number = account_number;
 	}
 	
-	@OneToMany(mappedBy = "company")
-	@JsonIgnore
-	private List<Client> clients;
-	
-	
-	public Integer getCompanyId() {
-		return companyId;
+	public Integer getClientId() {
+		return clientId;
 	}
-	public void setCompanyId(Integer companyId) {
-		this.companyId = companyId;
+
+	public void setClientId(Integer clientId) {
+		this.clientId = clientId;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPib() {
-		return pib;
+
+	public String getClient_reg_number() {
+		return client_reg_number;
 	}
-	public void setPib(String pib) {
-		this.pib = pib;
+
+	public void setClient_reg_number(String client_reg_number) {
+		this.client_reg_number = client_reg_number;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getContact() {
 		return contact;
 	}
+
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getAccount_number() {
 		return account_number;
 	}
+
 	public void setAccount_number(String account_number) {
 		this.account_number = account_number;
 	}
-	
-	
-	
-	
 
 	
-
+	
 }

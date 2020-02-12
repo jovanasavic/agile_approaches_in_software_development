@@ -1,4 +1,4 @@
-package models;
+package com.example.project.models;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class Service implements Serializable{
 	@NotBlank(message="Name cannot be empty!")
 	private String name;
 	
-	@NotBlank(message="Name cannot be empty!")
+	@NotBlank(message="Price cannot be empty!")
 	private double price;
 	private Measure measure;
 	public enum Measure {
@@ -38,7 +38,11 @@ public class Service implements Serializable{
 		DAY,
 		PIECE
 	} 
+	@ManyToMany(mappedBy = "serviceList")
+	private Set<Bill> billList;
 	
+	@OneToMany(mappedBy = "service")
+	private Set<ServiceQuantity> quantities;
 
 	public Service() {
 		super();	
@@ -53,12 +57,6 @@ public class Service implements Serializable{
 		this.price = price;
 		this.measure = measure;
 	}
-	
-	@ManyToMany(mappedBy = "serviceList")
-	private Set<Bill> billList;
-	
-	@OneToMany(mappedBy = "service")
-	private Set<ServiceQuantity> quantities;
 	
 	
 	public Integer getServiceId() {
