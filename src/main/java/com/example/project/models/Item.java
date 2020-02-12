@@ -1,21 +1,19 @@
 package com.example.project.models;
 
 import java.io.Serializable;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 
-
+import com.example.project.enums.Measure;
 
 @Entity
-public class Service implements Serializable{
+public class Item implements Serializable{
 
 	/**
 	 * 
@@ -25,78 +23,61 @@ public class Service implements Serializable{
 	@Id
 	@SequenceGenerator(name="SERVICE_ID_GENERATOR", sequenceName="SERVICE_SEQ")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SERVICE_ID_GENERATOR")
-	private Integer serviceId;
-	
-	@NotBlank(message="Name cannot be empty!")
-	private String name;
+	private Integer itemId;
 	
 	@NotBlank(message="Price cannot be empty!")
 	private double price;
-	private Measure measure;
-	public enum Measure {
-		HOUR, 
-		DAY,
-		PIECE
-	} 
-	@ManyToMany(mappedBy = "serviceList")
-	private Set<Bill> billList;
 	
-	@OneToMany(mappedBy = "service")
-	private Set<ServiceQuantity> quantities;
-
-	public Service() {
-		super();	
+	private Measure measure;
+	
+	@ManyToOne
+	@JoinColumn(name = "bill")
+	private Bill bill;
+	
+	@ManyToOne
+	@JoinColumn(name = "itemName")
+	private ItemName itemName;
+	
+	public Item() {
 	}
 
-
-	public Service(Integer serviceId, @NotBlank(message = "Name cannot be empty!") String name,
-			@NotBlank(message = "Name cannot be empty!") double price, Measure measure) {
-		super();
-		this.serviceId = serviceId;
-		this.name = name;
+	public Item(Integer itemId, ItemName itemName,
+			@NotBlank(message = "Price cannot be empty!") double price, Measure measure) {
+		this.itemId = itemId;
+		this.itemName = itemName;
 		this.price = price;
 		this.measure = measure;
 	}
 	
+	public Integer getItemId() {
+		return itemId;
+	}
 	
-	public Integer getServiceId() {
-		return serviceId;
+	public void setItemId(Integer serviceId) {
+		this.itemId = serviceId;
 	}
 
-
-	public void setServiceId(Integer serviceId) {
-		this.serviceId = serviceId;
+	public ItemName getItemName() {
+		return itemName;
 	}
 
-
-	public String getName() {
-		return name;
+	public void setItemName(ItemName itemName) {
+		this.itemName = itemName;
 	}
-
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 
 	public double getPrice() {
 		return price;
 	}
 
-
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
 
 	public Measure getMeasure() {
 		return measure;
 	}
 
-
 	public void setMeasure(Measure measure) {
 		this.measure = measure;
 	}
-
-	
 }

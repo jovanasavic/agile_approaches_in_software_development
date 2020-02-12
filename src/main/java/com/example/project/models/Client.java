@@ -59,7 +59,6 @@ public class Client implements Serializable {
 	
 	public Client(Integer clientId, String name, String client_reg_number, String address, String contact, String email,
 			String account_number) {
-		super();
 		this.clientId = clientId;
 		this.name = name;
 		this.client_reg_number = client_reg_number;
@@ -123,8 +122,5 @@ public class Client implements Serializable {
 
 	public void setAccount_number(String account_number) {
 		this.account_number = account_number;
-	}
-
-	
-	
+	}	
 }

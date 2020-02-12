@@ -34,15 +34,11 @@ public class Payment implements Serializable {
 	@ManyToOne
 	@JoinColumn (name = "bill")
 	private Bill bill;
-
 	
 	public Payment () {
-		
-		}
-	
+	}
 	
 	public Payment(Integer paymentId, double amount, LocalDate date_of_issue) {
-		super();
 		this.paymentId = paymentId;
 		this.amount = amount;
 		this.date_of_issue = date_of_issue;
@@ -52,33 +48,23 @@ public class Payment implements Serializable {
 		return paymentId;
 	}
 
-
 	public void setPaymnetId(Integer paymentId) {
 		this.paymentId = paymentId;
 	}
-
 
 	public double getAmount() {
 		return amount;
 	}
 
-
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
 
 	public LocalDate getDate_of_issue() {
 		return date_of_issue;
 	}
 
-
 	public void setDate_of_issue(LocalDate date_of_issue) {
 		this.date_of_issue = date_of_issue;
 	}
-	
-	
-	
-	
-
 }
